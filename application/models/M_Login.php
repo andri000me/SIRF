@@ -20,6 +20,14 @@ class M_login extends CI_Model {
 		return $query;
 	}
 
+	public function add_logs($data){
+    	if($this->db->insert('log_activity',$data)){
+        	return true;
+        }
+        else{
+        	return false;
+        }
+	}
 
 }
 

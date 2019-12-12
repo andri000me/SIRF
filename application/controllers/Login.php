@@ -40,6 +40,13 @@ class Login extends CI_Controller
 	    $data['username'] = $this->input->post('username');
         $data['password'] = $this->input->post('password');
         
+        $now = date("Y-m-d H:i:s");
+        $log = array(
+        	'ID_User' => $data['username'],
+        	'Activity' => "Login",
+        	'Date' => $now
+        );
+
         $results = $this->M_Login->can_login($data);
 
         if($results->num_rows()==1){
@@ -48,6 +55,7 @@ class Login extends CI_Controller
 				
 			}
 			if($data['role'] == '1'){
+				$this->M_Login->add_logs($log);
 				$data['content'] = $this->M_Menu->show_food();
 				$data['content1'] = $this->M_Menu->show_drink();
 				$data['content2'] = $this->M_Menu->show_vegetable();
@@ -55,6 +63,7 @@ class Login extends CI_Controller
 				$this->load->view('Waiters/Menu_List',$data);
 			}
 			else if($data['role'] == '2'){
+				$this->M_Login->add_logs($log);
 				$data['content'] = $this->M_Menu->show_food();
 				$data['content1'] = $this->M_Menu->show_drink();
 				$data['content2'] = $this->M_Menu->show_vegetable();
@@ -67,7 +76,15 @@ class Login extends CI_Controller
 		}
 	}
 	
-	public function logout(){
+	public function Logout($username=''){
+		$now = date("Y-m-d H:i:s");
+		$log = array(
+        	'ID_User' => $username,
+        	'Activity' => "Logout",
+        	'Date' => $now
+        );
+		$this->M_Login->add_logs($log);
+	    
 	    $this->session->sess_destroy();
 		redirect(base_url());
 		exit;

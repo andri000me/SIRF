@@ -56,7 +56,7 @@
 									<a class="nav-link" href="#"><?php echo $username ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo base_url();?>Login/logout">Logout</a>
+									<a class="nav-link" href="<?php echo base_url()?>Login/Logout/<?php echo $username?>">Logout</a>
 								</li>
 							</ul>
 						</div>

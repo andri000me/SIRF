@@ -24,7 +24,8 @@ class Waiters extends CI_Controller
 		// echo $username.$password;
 
 		$this->load->model('M_Menu');
-		$this->load->model('M_Order');     
+		$this->load->model('M_Order');
+		$this->load->model('M_Login');      
     }
 
     public function order($username = ''){
@@ -170,6 +171,14 @@ class Waiters extends CI_Controller
 			echo '<script language="javascript">';
 			echo 'alert("Data Berhasil ditambah")';
 			echo '</script>';
+			$log = array(
+        	'ID_User' => $username,
+        	'Activity' => "Add_Order",
+        	'Date' => $now
+    	    );
+			$this->M_Login->add_logs($log);
+	    
+
 			$data['content'] = $this->M_Order->show_order();
 			$data['username'] = $username;
 			$this->load->view('Waiters/Dashboard',$data);

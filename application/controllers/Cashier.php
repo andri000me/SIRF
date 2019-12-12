@@ -25,7 +25,8 @@ class Cashier extends CI_Controller
 
 		$this->load->library('session');
 		$this->load->model('M_Menu');
-		$this->load->model('M_Order');     
+		$this->load->model('M_Order');
+		$this->load->model('M_Login');     
     }
 
     public function order($username = ''){
@@ -171,7 +172,13 @@ class Cashier extends CI_Controller
 			echo 'alert("Data successfully added")';
 			echo '</script>';
 			
-
+			$log = array(
+        		'ID_User' => $username,
+        		'Activity' => "Add Order",
+        		'Date' => $now
+        	);
+			$this->M_Login->add_logs($log);
+			
 			$data['username'] = $username;
 			$data['content'] = $this->M_Order->show_order();
 			$this->load->view('Cashier/Dashboard',$data);
@@ -332,6 +339,12 @@ class Cashier extends CI_Controller
 				'Date' => $now
 			);
 
+			$log = array(
+        		'ID_User' => $username,
+        		'Activity' => "Add Payment + Print Out Transaction",
+        		'Date' => $now
+        	);
+			$this->M_Login->add_logs($log);
 
 			$this->load->view('Cashier/Dashboard',$data);
       		$this->load->view('Cashier/Transaction');
